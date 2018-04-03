@@ -34,7 +34,9 @@ process.source = cms.Source("PoolSource",
 #'root://cms-xrd-global.cern.ch//store/mc/RunIISummer15GS/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/GEN-SIM/MCRUN2_71_V1-v1/00000/00598ACE-D496-E511-888F-0CC47A4C8EE8.root'
 #'srm://cluster142.knu.ac.kr:8443/srm/managerv2?SFN=/pnfs/knu.ac.kr/data/cms/store/mc/RunIISummer15GS/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/GEN-SIM/MCRUN2_71_V1-v1/00000/00598ACE-D496-E511-888F-0CC47A4C8EE8.root'
 
-'root://cluster142.knu.ac.kr//store/mc/RunIISummer15GS/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/GEN-SIM/MCRUN2_71_V1-v1/00000/FEBFC3DC-FA96-E511-A479-0CC47A78A4B8.root'
+#'root://cluster142.knu.ac.kr//store/mc/RunIISummer15GS/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/GEN-SIM/MCRUN2_71_V1-v1/00000/FEBFC3DC-FA96-E511-A479-0CC47A78A4B8.root' ####50plus knu gensim
+'root://cluster142.knu.ac.kr//store/mc/RunIISummer15GS/DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/GEN-SIM/MCRUN2_71_V1-v1/10000/000F8BDD-A77B-E511-B3D4-002590D9D8BE.root' ####10to50 knu gensim
+#'/store/mc/RunIISummer15GS/DYJetsToLL_M-200to400_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/GEN-SIM/MCRUN2_71_V1_ext2-v1/80000/00C96872-EBD3-E511-9418-24BE05C46B11.root'
       )
 )
        

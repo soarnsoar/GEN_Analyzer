@@ -81,8 +81,8 @@ class JHanalyzer_muon_status2223 : public edm::one::EDAnalyzer<edm::one::SharedR
 
   edm::EDGetTokenT<GenParticleCollection> genParticles_Token;
   edm::EDGetTokenT<GenEventInfoProduct> genInfo_Token;
-   edm::EDGetTokenT<LHEEventProduct> LHEInfo_Token;
-
+  edm::EDGetTokenT<LHEEventProduct> LHEInfo_Token;
+  
 
   TTree * Nphoton;
   TTree * Nphotonall;
@@ -117,6 +117,7 @@ class JHanalyzer_muon_status2223 : public edm::one::EDAnalyzer<edm::one::SharedR
   TTree * truweight;
 
   TTree *status2223;
+  TTree *lheinfo;
 
   TTree *trupdfsclweight0;
   TTree *trupdfsclweight1;
@@ -264,6 +265,7 @@ class JHanalyzer_muon_status2223 : public edm::one::EDAnalyzer<edm::one::SharedR
   //  double boson_m,boson_pt,boson_eta,boson_phi;
   double boson_m,boson_pt;
   double NFSR,Zevent;
+  double lhemass,lhept;
   double trupdfweight[102];
   double trupdfsclweight[6];
   //  double promptphoton;
@@ -397,7 +399,7 @@ trupdfweight101, w101
    iEvent.getByToken(genParticles_Token, genParticles);//genParticle                                                                                         
    edm::Handle<GenEventInfoProduct> genInfo;
    iEvent.getByToken(genInfo_Token, genInfo);
-    edm::Handle<LHEEventProduct> LHEInfo;
+   edm::Handle<LHEEventProduct> LHEInfo;
    iEvent.getByToken(LHEInfo_Token, LHEInfo);
    //GenEventInfoProduct                   "generator"                 ""                "SIM"   //
    int lheinfoweightsize= LHEInfo->weights().size();
@@ -416,10 +418,61 @@ trupdfweight101, w101
    }
    //   cout<<"after LHE weight"<<endl;
 
+   int leppid=13;
+   //LHE info///
+   const lhef::HEPEUP& lheEvent = LHEInfo->hepeup();
+   std::vector<lhef::HEPEUP::FiveVector> lheParticles = lheEvent.PUP;
 
+   Int_t nLHEParticle = lheParticles.size();
+   TLorentzVector v1lhe,v2lhe,vzlhe; 
+   lhemass=0;
+   for( Int_t idxParticle = 0; idxParticle < nLHEParticle; ++idxParticle ){
+     
+     Int_t id = lheEvent.IDUP[idxParticle];
+     Double_t px = lheParticles[idxParticle][0];
+     Double_t py = lheParticles[idxParticle][1];
+     Double_t pz = lheParticles[idxParticle][2];
+     Double_t ee = lheParticles[idxParticle][3];
+     Double_t mm = lheParticles[idxParticle][4];
+     Int_t status = lheEvent.ISTUP[idxParticle];
+
+     //     double px1=0,py1=0,pz1=0,ee1=0;
+     //double px2=0,py2=0,pz2=0,ee2=0;
+ 
+     //          cout<<"i="<<idxParticle<<" pid="<<id<<" status="<<status<<" px="<<px<<" py="<<py<<" pz="<<pz<<" ee="<<ee<<" mm="<<mm<<endl;
+     if(status==2 && id==23){
+          vzlhe.SetPxPyPzE(px,py,pz,ee);
+	  lhemass=mm;
+	  lhept=vzlhe.Perp();
+     }
+     else if(status==1 && id==leppid){
+       v1lhe.SetPxPyPzE(px,py,pz,ee);
+     }
+     else if(status==1 && id==-leppid){
+       v2lhe.SetPxPyPzE(px,py,pz,ee);
+     }
+   }
+   if(vzlhe.E()!=0){
+     //cout<<"LHEZMass=="<<vzlhe.M()<<endl;
+     //cout<<"LHEZMass="<<lhemass<<endl;
+   }
+     else if(v1lhe.E()!=0){
+       lhemass=(v1lhe+v2lhe).M();
+       lhept=(v1lhe+v2lhe).Perp();
+       // cout<<"LHEZMass="<<lhemass<<endl;
+    //       cout<<"LHEMass="<<(v1lhe+v2lhe).M()<<endl;
+     }
+     if(v1lhe.E()!=0){
+       //       cout<<"channel matched"<<endl;
+     }
+
+
+   
+
+   ///end of LHE info//
    weight=genInfo->weight();
 
-   int leppid=13;
+
    ///////Define Hard PID/////
    vector<int> hardpid;
    hardpid.push_back(leppid);
@@ -755,6 +808,7 @@ trupdfweight101, w101
 
 
    if(nlep<2) return;
+
    TLorentzVector v1,v2;
    v1.SetPxPyPzE(lep1_px,lep1_py,lep1_pz,lep1_ee);
    v2.SetPxPyPzE(lep2_px,lep2_py,lep2_pz,lep2_ee);
@@ -787,9 +841,11 @@ trupdfweight101, w101
      double py = p.py();
      double pz = p.pz();
      double ee = p.energy();
+     double mm = p.mass();
+
      int mother = gen_motherindex[i];
      int fromhardDY = gen_fromhardDY[i];
-     //cout<<"i="<<i<<" id="<<id<<" status="<<status<<" prompt="<<prompt<<" mother="<<mother<<" hardprocess="<<hardprocess<<" fromhard="<<fromhard<<" ee="<<ee<<endl;
+     //     if(fabs(id)==leppid || id==23)    cout<<"i="<<i<<" id="<<id<<" status="<<status<<" prompt="<<prompt<<" mother="<<mother<<" hardprocess="<<hardprocess<<" fromhard="<<fromhard<<" ee="<<ee<<" mm="<<mm<<endl;
      TLorentzVector vfsr;
      vfsr.SetPxPyPzE(px,py,pz,ee);
      // double dR1 = vfsr.DeltaR(v1);
@@ -926,6 +982,7 @@ trupdfweight101, w101
      boson_pt=v.Perp();
      Zevent=0;
    }
+   //   cout<<"Massstatus2223="<<boson_m<<endl;
    lep1->Fill();
    lep2->Fill();
 
@@ -955,7 +1012,7 @@ trupdfweight101, w101
    Nphotonall->Fill();
 
    status2223->Fill();
-
+   lheinfo->Fill();
    FSRinfo->Fill();
   
 
@@ -1140,7 +1197,7 @@ JHanalyzer_muon_status2223::beginJob()
 
   status2223 = fs->make<TTree>("status2223","status2223");
   FSRinfo = fs->make<TTree>("FSRinfo","FSRinfo");
-
+  lheinfo = fs->make<TTree>("lheinfo","lheinfo");
 
   trupdfsclweight0 = fs->make<TTree>("trupdfsclweight0","trupdfsclweight0");
   trupdfsclweight1 = fs->make<TTree>("trupdfsclweight1","trupdfsclweight1");
@@ -1344,6 +1401,8 @@ JHanalyzer_muon_status2223::beginJob()
   // status2223->Branch("boson_eta",&boson_eta,"boson_eta/D");
   //status2223->Branch("boson_phi",&boson_phi,"boson_phi/D");
   status2223->Branch("boson_pt",&boson_pt,"boson_pt/D");
+  lheinfo->Branch("lhemass",&lhemass,"lhemass/D");
+  lheinfo->Branch("lhept",&lhept,"lhept/D");
 
   FSRinfo->Branch("NFSR",&NFSR,"NFSR/D");
   FSRinfo->Branch("Zevent",&Zevent,"Zevent/D");

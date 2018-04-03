@@ -81,8 +81,8 @@ class JHanalyzer_electron_status2223 : public edm::one::EDAnalyzer<edm::one::Sha
 
   edm::EDGetTokenT<GenParticleCollection> genParticles_Token;
   edm::EDGetTokenT<GenEventInfoProduct> genInfo_Token;
-   edm::EDGetTokenT<LHEEventProduct> LHEInfo_Token;
-
+  edm::EDGetTokenT<LHEEventProduct> LHEInfo_Token;
+  
 
   TTree * Nphoton;
   TTree * Nphotonall;
@@ -397,7 +397,7 @@ trupdfweight101, w101
    iEvent.getByToken(genParticles_Token, genParticles);//genParticle                                                                                         
    edm::Handle<GenEventInfoProduct> genInfo;
    iEvent.getByToken(genInfo_Token, genInfo);
-    edm::Handle<LHEEventProduct> LHEInfo;
+   edm::Handle<LHEEventProduct> LHEInfo;
    iEvent.getByToken(LHEInfo_Token, LHEInfo);
    //GenEventInfoProduct                   "generator"                 ""                "SIM"   //
    int lheinfoweightsize= LHEInfo->weights().size();
@@ -416,7 +416,25 @@ trupdfweight101, w101
    }
    //   cout<<"after LHE weight"<<endl;
 
+   //LHE info///
+   const lhef::HEPEUP& lheEvent = LHEInfo->hepeup();
+   std::vector<lhef::HEPEUP::FiveVector> lheParticles = lheEvent.PUP;
 
+   Int_t nLHEParticle = lheParticles.size();
+   for( Int_t idxParticle = 0; idxParticle < nLHEParticle; ++idxParticle ){
+
+     Int_t id = lheEvent.IDUP[idxParticle];
+     Double_t px = lheParticles[idxParticle][0];
+     Double_t py = lheParticles[idxParticle][1];
+     Double_t pz = lheParticles[idxParticle][2];
+     Double_t ee = lheParticles[idxParticle][3];
+     Double_t mm = lheParticles[idxParticle][4];
+     Int_t status = lheEvent.ISTUP[idxParticle];
+
+     cout<<"i="<<idxParticle<<" pid="<<id<<" status="<<status<<" px="<<px<<" py="<<py<<" pz="<<pz<<" ee="<<ee<<" mm="<<mm<<endl;
+   }
+
+   ///end of LHE info//
    weight=genInfo->weight();
 
    int leppid=11;
