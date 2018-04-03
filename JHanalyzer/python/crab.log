@@ -1,0 +1,148 @@
+DEBUG 2018-03-25 18:09:33,335: 	 Executing command: 'submit'
+DEBUG 2018-03-25 18:09:33,335: 	 Found CRAB cache file /cms/ldap_home/jhchoi/.crab3
+DEBUG 2018-03-25 18:09:33,341: 	 Checking credentials
+DEBUG 2018-03-25 18:09:33,341: 	 Found proxy file /tmp/x509up_u556950710
+DEBUG 2018-03-25 18:09:33,341: 	 Getting proxy life time left
+DEBUG 2018-03-25 18:09:33,443: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u556950710 -timeleft
+ output : 41685
+
+ error: 
+ retcode : 0
+DEBUG 2018-03-25 18:09:33,546: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u556950710 -actimeleft
+ output : 41685
+
+ error: 
+ retcode : 0
+DEBUG 2018-03-25 18:09:33,546: 	 Proxy valid for 11:34:45 hours
+INFO 2018-03-25 18:09:33,546: 	 Will use CRAB configuration file crab_submit_muon.py
+DEBUG 2018-03-25 18:09:33,546: 	 Loading CRAB configuration file.
+DEBUG 2018-03-25 18:09:35,752: 	 Will use CRAB Analysis plugin (i.e. will run an analysis job type).
+ERROR 2018-03-25 18:09:35,753: 	 Working area '/cms/ldap_home/jhchoi/miniAOD_copy/CMSSW_8_0_21/src/Analyzer/JHanalyzer/python/crab_projects/crab_crab_ISR_GEN_Ntupler_muon' already exists 
+Please change the requestName in the config file
+ERROR 2018-03-25 18:09:35,753: 	 Caught exception
+Traceback (most recent call last):
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1803/bin/crab", line 160, in <module>
+    client()
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1803/bin/crab", line 146, in __call__
+    self.cmd = sub_cmd(self.logger, args[1:])
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1803/lib/python2.7/site-packages/CRABClient/Commands/submit.py", line 34, in __init__
+    SubCommand.__init__(self, logger, cmdargs, disable_interspersed_args=True)
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1803/lib/python2.7/site-packages/CRABClient/Commands/SubCommand.py", line 304, in __init__
+    getattr(self.configuration.General, 'requestName', None))
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1803/lib/python2.7/site-packages/CRABClient/ClientUtilities.py", line 404, in createWorkArea
+    raise ConfigException("Working area '%s' already exists \nPlease change the requestName in the config file" % fullpath)
+ConfigException: Working area '/cms/ldap_home/jhchoi/miniAOD_copy/CMSSW_8_0_21/src/Analyzer/JHanalyzer/python/crab_projects/crab_crab_ISR_GEN_Ntupler_muon' already exists 
+Please change the requestName in the config file
+DEBUG 2018-03-25 18:11:36,886: 	 Executing command: 'submit'
+DEBUG 2018-03-25 18:11:36,886: 	 Found CRAB cache file /cms/ldap_home/jhchoi/.crab3
+DEBUG 2018-03-25 18:11:36,892: 	 Checking credentials
+DEBUG 2018-03-25 18:11:36,893: 	 Found proxy file /tmp/x509up_u556950710
+DEBUG 2018-03-25 18:11:36,893: 	 Getting proxy life time left
+DEBUG 2018-03-25 18:11:36,995: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u556950710 -timeleft
+ output : 41562
+
+ error: 
+ retcode : 0
+DEBUG 2018-03-25 18:11:37,097: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u556950710 -actimeleft
+ output : 41561
+
+ error: 
+ retcode : 0
+DEBUG 2018-03-25 18:11:37,098: 	 Proxy valid for 11:32:42 hours
+INFO 2018-03-25 18:11:37,098: 	 Will use CRAB configuration file crab_submit_muon.py
+DEBUG 2018-03-25 18:11:37,098: 	 Loading CRAB configuration file.
+DEBUG 2018-03-25 18:11:39,533: 	 Will use CRAB Analysis plugin (i.e. will run an analysis job type).
+ERROR 2018-03-25 18:11:39,534: 	 Working area '/cms/ldap_home/jhchoi/miniAOD_copy/CMSSW_8_0_21/src/Analyzer/JHanalyzer/python/crab_projects/crab_crab_ISR_GEN_Ntupler_muon' already exists 
+Please change the requestName in the config file
+ERROR 2018-03-25 18:11:39,535: 	 Caught exception
+Traceback (most recent call last):
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1803/bin/crab", line 160, in <module>
+    client()
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1803/bin/crab", line 146, in __call__
+    self.cmd = sub_cmd(self.logger, args[1:])
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1803/lib/python2.7/site-packages/CRABClient/Commands/submit.py", line 34, in __init__
+    SubCommand.__init__(self, logger, cmdargs, disable_interspersed_args=True)
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1803/lib/python2.7/site-packages/CRABClient/Commands/SubCommand.py", line 304, in __init__
+    getattr(self.configuration.General, 'requestName', None))
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1803/lib/python2.7/site-packages/CRABClient/ClientUtilities.py", line 404, in createWorkArea
+    raise ConfigException("Working area '%s' already exists \nPlease change the requestName in the config file" % fullpath)
+ConfigException: Working area '/cms/ldap_home/jhchoi/miniAOD_copy/CMSSW_8_0_21/src/Analyzer/JHanalyzer/python/crab_projects/crab_crab_ISR_GEN_Ntupler_muon' already exists 
+Please change the requestName in the config file
+DEBUG 2018-03-30 17:18:02,202: 	 Executing command: 'submit'
+DEBUG 2018-03-30 17:18:02,202: 	 Found CRAB cache file /cms/ldap_home/jhchoi/.crab3
+DEBUG 2018-03-30 17:18:02,209: 	 Checking credentials
+DEBUG 2018-03-30 17:18:02,209: 	 Found proxy file /tmp/x509up_u556950710
+DEBUG 2018-03-30 17:18:02,209: 	 Getting proxy life time left
+DEBUG 2018-03-30 17:18:02,311: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u556950710 -timeleft
+ output : 86304
+
+ error: 
+ retcode : 0
+DEBUG 2018-03-30 17:18:02,413: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u556950710 -actimeleft
+ output : 86304
+
+ error: 
+ retcode : 0
+DEBUG 2018-03-30 17:18:02,414: 	 Proxy valid for 23:58:24 hours
+INFO 2018-03-30 17:18:02,414: 	 Will use CRAB configuration file crab_submit_10to50_muon_status2223.py
+DEBUG 2018-03-30 17:18:02,414: 	 Loading CRAB configuration file.
+DEBUG 2018-03-30 17:18:04,861: 	 Will use CRAB Analysis plugin (i.e. will run an analysis job type).
+ERROR 2018-03-30 17:18:04,862: 	 Working area '/cms/ldap_home/jhchoi/miniAOD_copy/CMSSW_8_0_21/src/Analyzer/JHanalyzer/python/crab_projects/crab_crab_ISR_GEN_Ntupler_10to50_muon_status2223_v2' already exists 
+Please change the requestName in the config file
+ERROR 2018-03-30 17:18:04,862: 	 Caught exception
+Traceback (most recent call last):
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1803/bin/crab", line 160, in <module>
+    client()
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1803/bin/crab", line 146, in __call__
+    self.cmd = sub_cmd(self.logger, args[1:])
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1803/lib/python2.7/site-packages/CRABClient/Commands/submit.py", line 34, in __init__
+    SubCommand.__init__(self, logger, cmdargs, disable_interspersed_args=True)
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1803/lib/python2.7/site-packages/CRABClient/Commands/SubCommand.py", line 304, in __init__
+    getattr(self.configuration.General, 'requestName', None))
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1803/lib/python2.7/site-packages/CRABClient/ClientUtilities.py", line 404, in createWorkArea
+    raise ConfigException("Working area '%s' already exists \nPlease change the requestName in the config file" % fullpath)
+ConfigException: Working area '/cms/ldap_home/jhchoi/miniAOD_copy/CMSSW_8_0_21/src/Analyzer/JHanalyzer/python/crab_projects/crab_crab_ISR_GEN_Ntupler_10to50_muon_status2223_v2' already exists 
+Please change the requestName in the config file
+DEBUG 2018-03-30 18:35:12,646: 	 Executing command: 'submit'
+DEBUG 2018-03-30 18:35:12,647: 	 Found CRAB cache file /cms/ldap_home/jhchoi/.crab3
+DEBUG 2018-03-30 18:35:12,677: 	 Checking credentials
+DEBUG 2018-03-30 18:35:12,679: 	 Found proxy file /tmp/x509up_u556950710
+DEBUG 2018-03-30 18:35:12,679: 	 Getting proxy life time left
+DEBUG 2018-03-30 18:35:12,780: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u556950710 -timeleft
+ output : 81674
+
+ error: 
+ retcode : 0
+DEBUG 2018-03-30 18:35:12,883: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u556950710 -actimeleft
+ output : 81674
+
+ error: 
+ retcode : 0
+DEBUG 2018-03-30 18:35:12,883: 	 Proxy valid for 22:41:14 hours
+INFO 2018-03-30 18:35:12,883: 	 Will use CRAB configuration file crab_submit_10to50_muon_status2223.py
+DEBUG 2018-03-30 18:35:12,883: 	 Loading CRAB configuration file.
+DEBUG 2018-03-30 18:35:15,274: 	 Will use CRAB Analysis plugin (i.e. will run an analysis job type).
+ERROR 2018-03-30 18:35:15,275: 	 Working area '/cms/ldap_home/jhchoi/miniAOD_copy/CMSSW_8_0_21/src/Analyzer/JHanalyzer/python/crab_projects/crab_crab_ISR_GEN_Ntupler_10to50_muon_status2223_v2' already exists 
+Please change the requestName in the config file
+ERROR 2018-03-30 18:35:15,276: 	 Caught exception
+Traceback (most recent call last):
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1803/bin/crab", line 160, in <module>
+    client()
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1803/bin/crab", line 146, in __call__
+    self.cmd = sub_cmd(self.logger, args[1:])
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1803/lib/python2.7/site-packages/CRABClient/Commands/submit.py", line 34, in __init__
+    SubCommand.__init__(self, logger, cmdargs, disable_interspersed_args=True)
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1803/lib/python2.7/site-packages/CRABClient/Commands/SubCommand.py", line 304, in __init__
+    getattr(self.configuration.General, 'requestName', None))
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1803/lib/python2.7/site-packages/CRABClient/ClientUtilities.py", line 404, in createWorkArea
+    raise ConfigException("Working area '%s' already exists \nPlease change the requestName in the config file" % fullpath)
+ConfigException: Working area '/cms/ldap_home/jhchoi/miniAOD_copy/CMSSW_8_0_21/src/Analyzer/JHanalyzer/python/crab_projects/crab_crab_ISR_GEN_Ntupler_10to50_muon_status2223_v2' already exists 
+Please change the requestName in the config file

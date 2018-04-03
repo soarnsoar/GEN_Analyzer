@@ -1,0 +1,135 @@
+DEBUG 2018-03-30 18:59:19,595: 	 Executing command: 'submit'
+DEBUG 2018-03-30 18:59:19,595: 	 Found CRAB cache file /cms/ldap_home/jhchoi/.crab3
+DEBUG 2018-03-30 18:59:19,603: 	 Checking credentials
+DEBUG 2018-03-30 18:59:19,604: 	 Found proxy file /tmp/x509up_u556950710
+DEBUG 2018-03-30 18:59:19,604: 	 Getting proxy life time left
+DEBUG 2018-03-30 18:59:19,706: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u556950710 -timeleft
+ output : 80227
+
+ error: 
+ retcode : 0
+DEBUG 2018-03-30 18:59:19,809: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u556950710 -actimeleft
+ output : 80227
+
+ error: 
+ retcode : 0
+DEBUG 2018-03-30 18:59:19,809: 	 Proxy valid for 22:17:07 hours
+INFO 2018-03-30 18:59:19,809: 	 Will use CRAB configuration file crab_submit_50plus_electron_status2223.py
+DEBUG 2018-03-30 18:59:19,809: 	 Loading CRAB configuration file.
+DEBUG 2018-03-30 18:59:22,286: 	 Will use CRAB Analysis plugin (i.e. will run an analysis job type).
+DEBUG 2018-03-30 18:59:22,403: 	 Executing : 
+ command : openssl x509 -in ~/.globus/usercert.pem -subject -noout
+ output : subject= /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=jhchoi/CN=783142/CN=Junho Choi
+
+ error: 
+ retcode : 0
+DEBUG 2018-03-30 18:59:22,404: 	 Checking credentials
+DEBUG 2018-03-30 18:59:22,404: 	 Found proxy file /tmp/x509up_u556950710
+DEBUG 2018-03-30 18:59:22,404: 	 Getting proxy life time left
+DEBUG 2018-03-30 18:59:22,506: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u556950710 -timeleft
+ output : 80224
+
+ error: 
+ retcode : 0
+DEBUG 2018-03-30 18:59:22,608: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u556950710 -actimeleft
+ output : 80224
+
+ error: 
+ retcode : 0
+DEBUG 2018-03-30 18:59:22,609: 	 Proxy valid for 22:17:04 hours
+DEBUG 2018-03-30 18:59:22,711: 	 Executing : 
+ command : env X509_USER_PROXY=/tmp/x509up_u556950710 voms-proxy-info -fqan
+ output : /cms/Role=NULL/Capability=NULL
+
+ error: 
+ retcode : 0
+DEBUG 2018-03-30 18:59:24,460: 	 Registering user credentials for server /DC=ch/DC=cern/OU=computers/CN=vocms(045|052|021|031|0118|0118a|0119|0108|0105|0109).cern.ch
+DEBUG 2018-03-30 18:59:24,566: 	 Executing : 
+ command : openssl x509 -in ~/.globus/usercert.pem -subject -noout
+ output : subject= /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=jhchoi/CN=783142/CN=Junho Choi
+
+ error: 
+ retcode : 0
+DEBUG 2018-03-30 18:59:24,567: 	 Getting myproxy life time left for myproxy.cern.ch
+DEBUG 2018-03-30 18:59:24,567: 	 Calculating hash of /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=jhchoi/CN=783142/CN=Junho Choi_cmsweb.cern.ch for credential name
+DEBUG 2018-03-30 18:59:26,372: 	 Executing : 
+ command : myproxy-info -l dae06a62b13c1e0775eb39a9f7eb9d9800db9ada -s myproxy.cern.ch
+ output : username: dae06a62b13c1e0775eb39a9f7eb9d9800db9ada
+owner: /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=jhchoi/CN=783142/CN=Junho Choi
+  renewal policy: /DC=ch/DC=cern/OU=computers/CN=vocms(045|052|021|031|0118|0118a|0119|0108|0105|0109).cern.ch
+  trusted retrieval policy: /DC=ch/DC=cern/OU=computers/CN=vocms(045|052|021|031|0118|0118a|0119|0108|0105|0109).cern.ch
+  timeleft: 478:56:51  (20.0 days)
+
+ error: 
+ retcode : 0
+DEBUG 2018-03-30 18:59:26,373: 	 Myproxy is valid: 1724211
+DEBUG 2018-03-30 18:59:26,373: 	 Command use: submit
+DEBUG 2018-03-30 18:59:26,373: 	 Options use: ['-c', 'crab_submit_50plus_electron_status2223.py']
+DEBUG 2018-03-30 18:59:28,127: 	 CRABClient version: 3.3.1803
+DEBUG 2018-03-30 18:59:28,127: 	 Instance is prod
+DEBUG 2018-03-30 18:59:28,127: 	 Server base url is cmsweb.cern.ch
+DEBUG 2018-03-30 18:59:28,127: 	 Command url /crabserver/prod/workflow
+DEBUG 2018-03-30 18:59:28,127: 	 Started submission
+DEBUG 2018-03-30 18:59:28,127: 	 Working on /cms/ldap_home/jhchoi/miniAOD_copy/CMSSW_8_0_21/src/Analyzer/JHanalyzer/python/crab_projects/crab_crab_ISR_GEN_Ntupler_50plus_electron_status2223_v3
+DEBUG 2018-03-30 18:59:29,966: 	 Loading required information from the environment
+DEBUG 2018-03-30 18:59:29,966: 	 Found CMSSW_8_0_21 for slc6_amd64_gcc530 with base /cms/ldap_home/jhchoi/miniAOD_copy/CMSSW_8_0_21
+DEBUG 2018-03-30 18:59:29,966: 	 Loading required information from the environment
+DEBUG 2018-03-30 18:59:29,966: 	 Found CMSSW_8_0_21 for slc6_amd64_gcc530 with base /cms/ldap_home/jhchoi/miniAOD_copy/CMSSW_8_0_21
+DEBUG 2018-03-30 18:59:29,976: 	 UNIQUE NAME: tarUUID 94df4076-d25e-46e2-8e86-91657f89e1ff 
+DEBUG 2018-03-30 18:59:29,977: 	 self.config: from WMCore.Configuration import Configuration
+config = Configuration()
+config.section_('General')
+config.General.workArea = 'crab_projects'
+config.General.requestName = 'crab_ISR_GEN_Ntupler_50plus_electron_status2223_v3'
+config.section_('JobType')
+config.JobType.psetName = 'ISR_GEN_Ntupler_electron_status2223.py'
+config.JobType.pluginName = 'Analysis'
+config.JobType.maxMemoryMB = 4000
+config.section_('Data')
+config.Data.inputDataset = '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISummer15GS-MCRUN2_71_V1-v1/GEN-SIM'
+config.Data.publication = False
+config.Data.unitsPerJob = 30
+config.Data.inputDBS = 'global'
+config.Data.splitting = 'LumiBased'
+config.Data.useParent = True
+config.Data.outLFNDirBase = '/store/user/jhchoi/'
+config.section_('Site')
+config.Site.whitelist = ['T2_KR_KNU']
+config.Site.storageSite = 'T2_KR_KNU'
+config.section_('User')
+config.section_('Debug')
+
+DEBUG 2018-03-30 18:59:29,977: 	 self.config.JobType.psetName: ISR_GEN_Ntupler_electron_status2223.py
+INFO 2018-03-30 18:59:29,977: 	 Importing CMSSW configuration ISR_GEN_Ntupler_electron_status2223.py
+INFO 2018-03-30 18:59:30,035: 	 Finished importing CMSSW configuration ISR_GEN_Ntupler_electron_status2223.py
+DEBUG 2018-03-30 18:59:30,035: 	 Writing CMSSW configuration to /cms/ldap_home/jhchoi/miniAOD_copy/CMSSW_8_0_21/src/Analyzer/JHanalyzer/python/crab_projects/crab_crab_ISR_GEN_Ntupler_50plus_electron_status2223_v3/inputs/PSet.py
+DEBUG 2018-03-30 18:59:30,050: 	 The following EDM output files will be collected: []
+DEBUG 2018-03-30 18:59:30,050: 	 The following TFile output files will be collected: ['ISR_GENtuple.root']
+DEBUG 2018-03-30 18:59:30,051: 	 The following user output files will be collected: []
+DEBUG 2018-03-30 18:59:30,051: 	 Loading required information from the environment
+DEBUG 2018-03-30 18:59:30,051: 	 Found CMSSW_8_0_21 for slc6_amd64_gcc530 with base /cms/ldap_home/jhchoi/miniAOD_copy/CMSSW_8_0_21
+DEBUG 2018-03-30 18:59:30,051: 	 Making tarball in /cms/ldap_home/jhchoi/miniAOD_copy/CMSSW_8_0_21/src/Analyzer/JHanalyzer/python/crab_projects/crab_crab_ISR_GEN_Ntupler_50plus_electron_status2223_v3/inputs/94df4076-d25e-46e2-8e86-91657f89e1ffdefault.tgz
+DEBUG 2018-03-30 18:59:30,095: 	 Checking directory /cms/ldap_home/jhchoi/miniAOD_copy/CMSSW_8_0_21/lib
+DEBUG 2018-03-30 18:59:30,095: 	 Adding directory /cms/ldap_home/jhchoi/miniAOD_copy/CMSSW_8_0_21/lib to tarball
+DEBUG 2018-03-30 18:59:30,146: 	 Checking directory /cms/ldap_home/jhchoi/miniAOD_copy/CMSSW_8_0_21/biglib
+DEBUG 2018-03-30 18:59:30,147: 	 Adding directory /cms/ldap_home/jhchoi/miniAOD_copy/CMSSW_8_0_21/biglib to tarball
+DEBUG 2018-03-30 18:59:30,148: 	 Checking directory /cms/ldap_home/jhchoi/miniAOD_copy/CMSSW_8_0_21/module
+DEBUG 2018-03-30 18:59:30,605: 	 Uploading archive /cms/ldap_home/jhchoi/miniAOD_copy/CMSSW_8_0_21/src/Analyzer/JHanalyzer/python/crab_projects/crab_crab_ISR_GEN_Ntupler_50plus_electron_status2223_v3/inputs/94df4076-d25e-46e2-8e86-91657f89e1ffdefault.tgz (83 KB) to the CRAB cache. Using URI https://cmsweb.cern.ch/crabcache
+DEBUG 2018-03-30 18:59:34,006: 	 Loading required information from the environment
+DEBUG 2018-03-30 18:59:34,006: 	 Found CMSSW_8_0_21 for slc6_amd64_gcc530 with base /cms/ldap_home/jhchoi/miniAOD_copy/CMSSW_8_0_21
+DEBUG 2018-03-30 18:59:34,006: 	 Making tarball in /cms/ldap_home/jhchoi/miniAOD_copy/CMSSW_8_0_21/src/Analyzer/JHanalyzer/python/crab_projects/crab_crab_ISR_GEN_Ntupler_50plus_electron_status2223_v3/inputs/debugFiles.tgz
+DEBUG 2018-03-30 18:59:34,012: 	 Uploading archive /cms/ldap_home/jhchoi/miniAOD_copy/CMSSW_8_0_21/src/Analyzer/JHanalyzer/python/crab_projects/crab_crab_ISR_GEN_Ntupler_50plus_electron_status2223_v3/inputs/debugFiles.tgz (1 KB) to the CRAB cache. Using URI https://cmsweb.cern.ch/crabcache
+DEBUG 2018-03-30 18:59:36,279: 	 Result uploading input files: 379ad3f840011f8687156af0c35222b814e2c9425ee037625ba57a08e88b6926.tar.gz 
+INFO 2018-03-30 18:59:36,280: 	 Sending the request to the server
+DEBUG 2018-03-30 18:59:36,280: 	 Submitting {'maxjobruntime': 1250, 'extrajdl': [], 'ignorelocality': 0, 'savelogsflag': 0, 'useparent': 1, 'asyncdest': 'T2_KR_KNU', 'algoargs': 30, 'cachefilename': '379ad3f840011f8687156af0c35222b814e2c9425ee037625ba57a08e88b6926.tar.gz', 'numcores': 1, 'addoutputfiles': [], 'generator': 'pythia', 'maxmemory': 4000, 'publishdbsurl': 'https://cmsweb.cern.ch/dbs/prod/phys03/DBSWriter', 'priority': 10, 'jobsw': 'CMSSW_8_0_21', 'edmoutfiles': [], 'userfiles': [], 'primarydataset': '', 'inputdata': '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISummer15GS-MCRUN2_71_V1-v1/GEN-SIM', 'lfn': '/store/user/jhchoi/', 'dryrun': 0, 'workflow': 'crab_crab_ISR_GEN_Ntupler_50plus_electron_status2223_v3', 'sitewhitelist': ['T2_KR_KNU'], 'nonprodsw': 0, 'tfileoutfiles': ['ISR_GENtuple.root'], 'oneEventMode': 0, 'debugfilename': 'e7ad75cba4650b7f994067b51ad921dde450b87befc996971b3fdf6a01d8014d.tar.gz', 'cacheurl': u'https://cmsweb.cern.ch/crabcache', 'saveoutput': 1, 'publication': 0, 'jobarch': 'slc6_amd64_gcc530', 'totalunits': 0, 'splitalgo': 'LumiBased', 'ignoreglobalblacklist': 0, 'nonvaliddata': 0, 'dbsurl': 'https://cmsweb.cern.ch/dbs/prod/global/DBSReader', 'publishgroupname': 0, 'jobtype': 'Analysis', 'publishname2': ''} 
+DEBUG 2018-03-30 18:59:36,280: 	 Encoded submit request: maxjobruntime=1250&ignorelocality=0&savelogsflag=0&useparent=1&asyncdest=T2_KR_KNU&algoargs=30&cachefilename=379ad3f840011f8687156af0c35222b814e2c9425ee037625ba57a08e88b6926.tar.gz&numcores=1&generator=pythia&maxmemory=4000&publishdbsurl=https%3A%2F%2Fcmsweb.cern.ch%2Fdbs%2Fprod%2Fphys03%2FDBSWriter&priority=10&jobsw=CMSSW_8_0_21&primarydataset=&inputdata=%2FDYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8%2FRunIISummer15GS-MCRUN2_71_V1-v1%2FGEN-SIM&lfn=%2Fstore%2Fuser%2Fjhchoi%2F&dryrun=0&workflow=crab_crab_ISR_GEN_Ntupler_50plus_electron_status2223_v3&nonprodsw=0&oneEventMode=0&debugfilename=e7ad75cba4650b7f994067b51ad921dde450b87befc996971b3fdf6a01d8014d.tar.gz&cacheurl=https%3A%2F%2Fcmsweb.cern.ch%2Fcrabcache&saveoutput=1&publication=0&jobarch=slc6_amd64_gcc530&totalunits=0&splitalgo=LumiBased&ignoreglobalblacklist=0&nonvaliddata=0&dbsurl=https%3A%2F%2Fcmsweb.cern.ch%2Fdbs%2Fprod%2Fglobal%2FDBSReader&publishgroupname=0&jobtype=Analysis&publishname2=&sitewhitelist=T2_KR_KNU&tfileoutfiles=ISR_GENtuple.root
+DEBUG 2018-03-30 18:59:38,795: 	 Result: {u'result': [{u'RequestName': u'180330_095938:jhchoi_crab_crab_ISR_GEN_Ntupler_50plus_electron_status2223_v3'}]}
+INFO 2018-03-30 18:59:38,799: 	 Success: Your task has been delivered to the CRAB3 server.
+INFO 2018-03-30 18:59:38,799: 	 Task name: 180330_095938:jhchoi_crab_crab_ISR_GEN_Ntupler_50plus_electron_status2223_v3
+INFO 2018-03-30 18:59:38,799: 	 Please use 'crab status' to check how the submission process proceeds.
+DEBUG 2018-03-30 18:59:38,799: 	 About to return
+INFO 2018-03-30 18:59:38,802: 	 Log file is /cms/ldap_home/jhchoi/miniAOD_copy/CMSSW_8_0_21/src/Analyzer/JHanalyzer/python/crab_projects/crab_crab_ISR_GEN_Ntupler_50plus_electron_status2223_v3/crab.log
