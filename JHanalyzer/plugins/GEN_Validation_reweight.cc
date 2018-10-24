@@ -122,7 +122,10 @@ GEN_Validation_reweight::GEN_Validation_reweight(const edm::ParameterSet& iConfi
   genParticles_Token = consumes<GenParticleCollection>(edm::InputTag("genParticles"));
   genInfo_Token = consumes<GenEventInfoProduct>(edm::InputTag("generator"));
   LHEInfo_Token = consumes<LHEEventProduct>(edm::InputTag("externalLHEProducer"));
-    extLHEInfo_Token = consumes<LHERunInfoProduct>(edm::InputTag("externalLHEProducer"));  
+  //extLHEInfo_Token = consumes<LHERunInfoProduct>(edm::InputTag("externalLHEProducer"));  
+  extLHEInfo_Token= consumes<LHERunInfoProduct,edm::InRun>(edm::InputTag("externalLHEProducer",""));
+ 
+ //
 }
 
 
@@ -143,6 +146,7 @@ GEN_Validation_reweight::~GEN_Validation_reweight()
 void
 GEN_Validation_reweight::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
+  cout<<"analyzer"<<endl;
   ////////////initialize/////////////
   //Get weight//
   edm::Handle<LHEEventProduct> LHEInfo;
@@ -247,16 +251,19 @@ GEN_Validation_reweight::endJob()
 void 
 GEN_Validation_reweight::beginRun(const Run &iEvent, EventSetup const &iSetup ){
 //GEN_Validation_reweight::doBeginRun_(edm::Run const& iEvent, edm::EventSetup const& ){
+/*
   cout<<"dobeginrun"<<endl;
   //  edm::EDGetTokenT<LHERunInfoProduct> extLHEInfo_Token;                                                                                                                       
   edm::Handle<LHERunInfoProduct> run;
   typedef std::vector<LHERunInfoProduct::Header>::const_iterator headers_const_iterator;
 
   //  extLHEInfo_Token = consumes<LHERunInfoProduct>(edm::InputTag("externalLHEProducer")); 
-
+  //cout<<"!"<<endl;
   // iEvent.getByLabel( "externalLHEProducer", run );
-  iEvent.getByToken( extLHEInfo_Token, run );
+  iEvent.getByLabel( "externalLHEProducer", run );
+  //  iEvent.getByToken( extLHEInfo_Token, run );
   //  iRun.getByToken( extLHEInfo_Token, run );                                                                                                                                   
+  // cout<<"@"<<endl;
 
   LHERunInfoProduct myLHERunInfoProduct = *(run.product());
   for (headers_const_iterator iter=myLHERunInfoProduct.headers_begin(); iter!=myLHERunInfoProduct.headers_end(); iter++){
@@ -266,16 +273,40 @@ GEN_Validation_reweight::beginRun(const Run &iEvent, EventSetup const &iSetup ){
       std::cout << lines.at(iLine);
     }
   }
-
-
-
+*/
+//  extLHEInfo_Token = consumes<LHERunInfoProduct>(edm::InputTag("externalLHEProducer"));  
+  cout<<"end of beginrun"<<endl;
 }
 
 
 
 void                                                                                                                                                                              
 GEN_Validation_reweight::endRun(edm::Run const& iEvent, edm::EventSetup const&)                                                                                                                                                 
-{                                                                                                                                                                                 
+{                                                                                                                                                                                 cout<<"doendrun"<<endl;
+  //  edm::EDGetTokenT<LHERunInfoProduct> extLHEInfo_Token;                                                                                                                      
+  //extLHEInfo_Token = consumes<LHERunInfoProduct>(edm::InputTag("externalLHEProducer"));  
+  edm::Handle<LHERunInfoProduct> run;
+  typedef std::vector<LHERunInfoProduct::Header>::const_iterator headers_const_iterator;
+
+  //  extLHEInfo_Token = consumes<LHERunInfoProduct>(edm::InputTag("externalLHEProducer"));                                                                                       
+  //cout<<"!"<<endl;                                                                                                                                                              
+  // iEvent.getByLabel( "externalLHEProducer", run );                                                                                                                             
+  //    iEvent.getByLabel( "externalLHEProducer", run );
+      iEvent.getByToken( extLHEInfo_Token, run );                                                                                                                                 
+  //  iRun.getByToken( extLHEInfo_Token, run );                                                                                                                                  
+                                                                                                                                                                                  
+  // cout<<"@"<<endl;                                                                                                                                                             
+
+  LHERunInfoProduct myLHERunInfoProduct = *(run.product());
+  for (headers_const_iterator iter=myLHERunInfoProduct.headers_begin(); iter!=myLHERunInfoProduct.headers_end(); iter++){
+    std::cout << iter->tag() << std::endl;
+    std::vector<std::string> lines = iter->lines();
+    for (unsigned int iLine = 0; iLine<lines.size(); iLine++) {
+      std::cout << lines.at(iLine);
+    }
+  }
+ 
+
 }                                                                                                                                                                                 
 
 
