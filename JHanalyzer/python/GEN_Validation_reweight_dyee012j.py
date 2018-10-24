@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-process = cms.Process("GEN_Validation")
+process = cms.Process("GenValidation")
 
 process.load("FWCore.MessageService.MessageLogger_cfi")
 
@@ -14,7 +14,7 @@ process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 #      )
 
 process.TFileService = cms.Service("TFileService",
-                                   fileName = cms.string("ISR_GENtuple.root"),
+                                   fileName = cms.string("Ntuple.root"),
                                    closeFileFast = cms.untracked.bool(True)
                                    )
         
@@ -28,7 +28,7 @@ process.source = cms.Source("PoolSource",
 #'root://cms-xrd-global.cern.ch//store/mc/RunIISummer16DR80Premix/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/AODSIM/PUMoriond17_HCALDebug_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/110000/000D1CCB-D4B2-E611-8783-0025905B85DC.root' #2016
 
 #'file:/cms/ldap_home/jhchoi/miniAOD_copy/output_GEN/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/0008638B-A0D5-E611-9297-E0071B740D80.root'
-
+'file:OUTPUT_1.root'
       )
 )
        
