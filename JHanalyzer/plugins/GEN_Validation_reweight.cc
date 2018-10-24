@@ -1,9 +1,9 @@
 // -*- C++ -*-
 //
-// Package:    Analyzer/JHanalyzer_muon
-// Class:      JHanalyzer_muon
+// Package:    Analyzer/GEN_Validation_reweight
+// Class:      GEN_Validation_reweight
 // 
-/**\class JHanalyzer_muon JHanalyzer_muon.cc Analyzer/JHanalyzer_muon/plugins/JHanalyzer_muon.cc
+/**\class GEN_Validation_reweight GEN_Validation_reweight.cc Analyzer/GEN_Validation_reweight/plugins/GEN_Validation_reweight.cc
 
  Description: [one line class summary]
 
@@ -60,10 +60,10 @@ using namespace std;
 // constructor "usesResource("TFileService");"
 // This will improve performance in multithreaded jobs.
 
-class JHanalyzer_muon : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
+class GEN_Validation_reweight : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
    public:
-      explicit JHanalyzer_muon(const edm::ParameterSet&);
-      ~JHanalyzer_muon();
+      explicit GEN_Validation_reweight(const edm::ParameterSet&);
+      ~GEN_Validation_reweight();
 
       static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
 
@@ -155,21 +155,21 @@ class JHanalyzer_muon : public edm::one::EDAnalyzer<edm::one::SharedResources>  
 //
 // constructors and destructor
 //
-JHanalyzer_muon::JHanalyzer_muon(const edm::ParameterSet& iConfig)
+GEN_Validation_reweight::GEN_Validation_reweight(const edm::ParameterSet& iConfig)
 
 {
    //now do what ever initialization is needed
  
   //vector<reco::GenParticle>             "genParticles"              ""                "SIM"     
 
-  usesResource("TFileService");//genParticles
+  usesResource("TFileService");
    genParticles_Token = consumes<GenParticleCollection>(edm::InputTag("genParticles"));
    genInfo_Token = consumes<GenEventInfoProduct>(edm::InputTag("generator"));
 
 }
 
 
-JHanalyzer_muon::~JHanalyzer_muon()
+GEN_Validation_reweight::~GEN_Validation_reweight()
 {
  
    // do anything here that needs to be done at desctruction time
@@ -184,7 +184,7 @@ JHanalyzer_muon::~JHanalyzer_muon()
 
 // ------------ method called for each event  ------------
 void
-JHanalyzer_muon::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
+GEN_Validation_reweight::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
   ////////////initialize/////////////
   weight=1;
@@ -238,11 +238,9 @@ JHanalyzer_muon::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
    int lep1_i=-99;
    int lep2_i=-99;
    int nlep=0;
-   //   int nhard=0;
 
    int gensize= genParticles->size();
    int hardpidsize=hardpid.size();
-
    for(int i = 0; i < gensize; ++ i) {///scan all gen particles
      const GenParticle & p = (*genParticles)[i];
      int hardprocess = p.isHardProcess();
@@ -253,12 +251,6 @@ JHanalyzer_muon::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
      double py = p.py();
      double pz = p.pz();
      double ee = p.energy();
-     int prompt = p.statusFlags().isPrompt();//                                                                                                             
-
-     //     cout<<"i="<<i<<" id="<<id<<" status="<<status<<" prompt="<<prompt<<" hardprocess="<<hardprocess<<" fromhard="<<fromhard<<" ee="<<ee<<endl;
-
-
-     //     if(hardprocess) nhard+=1;
      for(int j = 0; j < hardpidsize; j++){
        
        if(id==hardpid[j] && hardprocess){
@@ -330,19 +322,19 @@ JHanalyzer_muon::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
        NPHOTONALL+=1;
        if(status!=1) cout<<"non status1 photon"<<endl;
      }    
-     //int prompt = p.statusFlags().isPrompt();//
+ //int prompt = p.statusFlags().isPrompt();//
      // double eta = p.eta();
      // double phi = p.phi();
      // int fromhard=p.statusFlags().fromHardProcess();//
 
      //     int fromhardbfFSR = p.fromHardProcessBeforeFSR();
-      // int hardprocess = p.isHardProcess();//
+     //int hardprocess = p.isHardProcess();//
      double px = p.px();
      double py = p.py();
      double pz = p.pz();
      double ee = p.energy();
      int mother = gen_motherindex[i];
-     //cout<<"i="<<i<<" id="<<id<<" status="<<status<<" prompt="<<prompt<<" mother="<<mother<<" hardprocess="<<hardprocess<<" fromhard="<<fromhard<<" ee="<<ee<<endl;
+     //   cout<<"i="<<i<<" id="<<id<<" status="<<status<<" prompt="<<prompt<<" mother="<<mother<<" hardprocess="<<hardprocess<<" fromhard="<<fromhard<<" ee="<<ee<<endl;
      TLorentzVector vfsr;
      vfsr.SetPxPyPzE(px,py,pz,ee);
      // double dR1 = vfsr.DeltaR(v1);
@@ -417,29 +409,25 @@ JHanalyzer_muon::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
      }//end of while mother
      
      ///////////////////////////////////////
-     if(fromhardDY && fabs(id)==15) return;
      if(!fromhardDY){//if it is ISR
        isr_t_px=px; isr_t_py=py; isr_t_pz=pz; isr_t_ee=ee;
-      
+       continue;  
      }
-     
+  
      ////now this particle
-     //status==1, !lep1 !lep2
-     else{
-       /////////////Final particle && not prompt leptons && from DY vtx  => FSR//////////////   
-       fsr_t_px+=px;fsr_t_py+=py;fsr_t_pz+=pz;fsr_t_ee+=ee;
-       if(id==22){
-	 isfsr=1;
-	 fsr_p_px+=px;fsr_p_py+=py;fsr_p_pz+=pz;fsr_p_ee+=ee;
-	 fsr_pl_px+=px;fsr_pl_py+=py;fsr_pl_pz+=pz;fsr_pl_ee+=ee;
-	 
-       }
-       else if(fabs(id)==11 || fabs(id)==13){
-	 //  fsr_l_px+=px;fsr_l_py+=py;fsr_l_pz+=pz;fsr_l_ee+=ee;
-	 fsr_pl_px+=px;fsr_pl_py+=py;fsr_pl_pz+=pz;fsr_pl_ee+=ee; 
-       }
-     }//end of fromhardDY(FSR)
-     if(id==22)   photoninfo->Fill();       
+
+
+     /////////////Final particle && not prompt leptons && from DY vtx  => FSR//////////////   
+     fsr_t_px+=px;fsr_t_py+=py;fsr_t_pz+=pz;fsr_t_ee+=ee;
+     if(id==22){
+       isfsr=1;
+       fsr_p_px+=px;fsr_p_py+=py;fsr_p_pz+=pz;fsr_p_ee+=ee;
+       fsr_pl_px+=px;fsr_pl_py+=py;fsr_pl_pz+=pz;fsr_pl_ee+=ee;
+     }
+     if(fabs(id)==11 || fabs(id)==13){
+       //  fsr_l_px+=px;fsr_l_py+=py;fsr_l_pz+=pz;fsr_l_ee+=ee;
+       fsr_pl_px+=px;fsr_pl_py+=py;fsr_pl_pz+=pz;fsr_pl_ee+=ee; 
+    }
    }//End of particle loop
 
    lep1->Fill();
@@ -469,7 +457,7 @@ JHanalyzer_muon::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
    NPHOTON=nphoton;
    Nphoton->Fill();
    Nphotonall->Fill();
-   //
+   photoninfo->Fill();
 #ifdef THIS_IS_AN_EVENT_EXAMPLE
    //Handle<ExampleData> pIn;
    // iEvent.getByLabel("example",pIn);
@@ -505,7 +493,7 @@ JHanalyzer_muon::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
 
 // ------------ method called once each job just before starting event loop  ------------
 void 
-JHanalyzer_muon::beginJob()
+GEN_Validation_reweight::beginJob()
 {
   edm::Service<TFileService> fs;
  
@@ -628,13 +616,13 @@ JHanalyzer_muon::beginJob()
 
 // ------------ method called once each job just after ending the event loop  ------------
 void 
-JHanalyzer_muon::endJob() 
+GEN_Validation_reweight::endJob() 
 {
 }
 
 // ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
 void
-JHanalyzer_muon::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
+GEN_Validation_reweight::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
   //The following says we do not know what parameters are allowed so do no validation
   // Please change this to state exactly what you do use, even if it is no parameters
   edm::ParameterSetDescription desc;
@@ -643,4 +631,4 @@ JHanalyzer_muon::fillDescriptions(edm::ConfigurationDescriptions& descriptions) 
 }
 
 //define this as a plug-in
-DEFINE_FWK_MODULE(JHanalyzer_muon);
+DEFINE_FWK_MODULE(GEN_Validation_reweight);
