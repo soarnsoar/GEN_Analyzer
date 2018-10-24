@@ -34,7 +34,7 @@
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
 #include "FWCore/ServiceRegistry/interface/Service.h"
-
+#include "SimDataFormats/GeneratorProducts/interface/HepMCProduct.h"
 
 
 using namespace edm;
@@ -42,9 +42,12 @@ using namespace reco;
 using namespace std;
 
 #include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
+#include "SimDataFormats/GeneratorProducts/interface/GenRunInfoProduct.h"
 #include "SimDataFormats/GeneratorProducts/interface/LHERunInfoProduct.h"
 #include "SimDataFormats/GeneratorProducts/interface/LHEEventProduct.h"
 
+#include "FWCore/Framework/interface/Frameworkfwd.h"
+#include "FWCore/Framework/interface/Run.h"//to use edm::Run
 
 
 #include <TTree.h>
@@ -62,25 +65,38 @@ using namespace std;
 // constructor "usesResource("TFileService");"
 // This will improve performance in multithreaded jobs.
 
-class GEN_Validation_reweight : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
+//class GEN_Validation_reweight : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
+class GEN_Validation_reweight : public edm::one::EDAnalyzer<edm::one::WatchRuns,edm::one::SharedResources>  {
+//class GEN_Validation_reweight : public edm::EDAnalyzer  {
    public:
       explicit GEN_Validation_reweight(const edm::ParameterSet&);
       ~GEN_Validation_reweight();
 
       static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
-
-
-   private:
-      virtual void beginJob() override;
-      virtual void analyze(const edm::Event&, const edm::EventSetup&) override;
-      virtual void endJob() override;
-
+ 
+  //  virtual void beginJob(edm::Run const& iEvent, edm::EventSetup const &) override;
+  //  void beginRun(edm::Run const&, edm::EventSetup const&) override;//to get LHERunInfoProduct//add new method
+  //void endRun(edm::Run const&, edm::EventSetup const&) override;
+private:
+  virtual void beginJob() override;
+  //  virtual void beginJob(edm::Run const& iRun) override;
+  //  virtual void beginJob(edm::Run const& iRun, edm::EventSetup const &iSetup) ;
+  virtual void analyze(const edm::Event&, const edm::EventSetup&) override;
+  virtual void endJob() override;
+  //  virtual void doBeginRun_(edm::Run const&, edm::EventSetup const&) override;
+  virtual void beginRun(edm::Run const&, edm::EventSetup const&) override;
+  virtual void endRun(edm::Run const&, edm::EventSetup const&) override;
+  //virtual void beginRun(edm::Run const& iEvent, edm::EventSetup const&) override;
+  //virtual void beginRun(edm::Run const& iRun, edm::EventSetup const &iSetup ) override;//to get LHERunInfoProduct//add new method
+  //virtual void beginRun() override;//to get LHERunInfoProduct//add new method
   //GenEventInfoProduct                   "generator"                 ""                "SIM"   
+
+//  void beginRun(edm::Run const& iEvent, edm::EventSetup const&) override;
 
   edm::EDGetTokenT<GenParticleCollection> genParticles_Token;
   edm::EDGetTokenT<GenEventInfoProduct> genInfo_Token;
   edm::EDGetTokenT<LHEEventProduct> LHEInfo_Token;
-  //  edm::EDGetTokenT<LHERunInfoProduct> extLHEInfo_Token;
+  edm::EDGetTokenT<LHERunInfoProduct> extLHEInfo_Token;   
 
       // ----------member data ---------------------------
 };
@@ -106,7 +122,7 @@ GEN_Validation_reweight::GEN_Validation_reweight(const edm::ParameterSet& iConfi
   genParticles_Token = consumes<GenParticleCollection>(edm::InputTag("genParticles"));
   genInfo_Token = consumes<GenEventInfoProduct>(edm::InputTag("generator"));
   LHEInfo_Token = consumes<LHEEventProduct>(edm::InputTag("externalLHEProducer"));
-  //extLHEInfo_Token = consumes<LHERunInfoProduct>(edm::InputTag("externalLHEProducer"));
+    extLHEInfo_Token = consumes<LHERunInfoProduct>(edm::InputTag("externalLHEProducer"));  
 }
 
 
@@ -133,9 +149,26 @@ GEN_Validation_reweight::analyze(const edm::Event& iEvent, const edm::EventSetup
   iEvent.getByToken(LHEInfo_Token, LHEInfo);
   int lheinfoweightsize= LHEInfo->weights().size();
   int lheinfocommentssize = LHEInfo->comments_size();
-  for (int i =0; i < lheinfocommentssize; i++){
-    cout<<"comment i ="<<i<<"=" << LHEInfo->getComment(i)<<endl;
-  } 
+  cout<<"lheinfocommentssize="<<lheinfocommentssize<<endl;
+  cout<<"lheinfoweightsize="<<lheinfoweightsize<<endl;
+  for (int i =0; i < lheinfoweightsize; i++){
+    //    cout<< LHEInfo->weights()[i].id<<endl;
+  }
+
+  //  for (int i =0; i < lheinfocommentssize; i++){
+    //    cout<<"comment i ="<<i<<"=" << LHEInfo->getComment(i)<<endl;
+  //} 
+
+
+  //weight id info
+
+  //  edm::Handle<LHERunInfoProduct> run;
+ 
+  //  iEvent.getByToken( extLHEInfo_Token, run );
+  //iEvent.getByLabel( "externalLHEProducer", run );
+  // typedef std::vector<LHERunInfoProduct::Header>::const_iterator headers_const_iterator;
+  //  LHERunInfoProduct myLHERunInfoProduct = *(run.product());
+
 
   int leppid=11;
 
@@ -169,22 +202,87 @@ GEN_Validation_reweight::analyze(const edm::Event& iEvent, const edm::EventSetup
 
 
 // ------------ method called once each job just before starting event loop  ------------
+
 void 
 GEN_Validation_reweight::beginJob()
+//GEN_Validation_reweight::beginJob(edm::Run const& iRun)
+//GEN_Validation_reweight::beginJob(edm::Run const& iRun, edm::EventSetup const &iSetup)
 {
-  edm::Service<TFileService> fs;
+  cout<<"begin job"<<endl;
  
+  edm::Service<TFileService> fs;
 
+  /*
+  edm::Handle<LHERunInfoProduct> run;
+  typedef std::vector<LHERunInfoProduct::Header>::const_iterator headers_const_iterator;
+
+  //  extLHEInfo_Token = consumes<LHERunInfoProduct>(edm::InputTag("externalLHEProducer"));                                                                                       
+
+  // iRun.getByLabel( "externalLHEProducer", run );
+  //iEvent.getByToken( extLHEInfo_Token, run );                                                                                                                                   
+  //  iRun.getByToken( extLHEInfo_Token, run );                                                                                                                                     
+  cout<<"LHERunInfo"<<endl;
+  LHERunInfoProduct myLHERunInfoProduct = *(run.product());
+  for (headers_const_iterator iter=myLHERunInfoProduct.headers_begin(); iter!=myLHERunInfoProduct.headers_end(); iter++){
+    std::cout << iter->tag() << std::endl;
+    std::vector<std::string> lines = iter->lines();
+    for (unsigned int iLine = 0; iLine<lines.size(); iLine++) {
+      std::cout << lines.at(iLine);
+    }
+  }
+
+  */
 
 }
 
 // ------------ method called once each job just after ending the event loop  ------------
+
 void 
 GEN_Validation_reweight::endJob() 
 {
 }
 
+
+
+void 
+GEN_Validation_reweight::beginRun(const Run &iEvent, EventSetup const &iSetup ){
+//GEN_Validation_reweight::doBeginRun_(edm::Run const& iEvent, edm::EventSetup const& ){
+  cout<<"dobeginrun"<<endl;
+  //  edm::EDGetTokenT<LHERunInfoProduct> extLHEInfo_Token;                                                                                                                       
+  edm::Handle<LHERunInfoProduct> run;
+  typedef std::vector<LHERunInfoProduct::Header>::const_iterator headers_const_iterator;
+
+  //  extLHEInfo_Token = consumes<LHERunInfoProduct>(edm::InputTag("externalLHEProducer")); 
+
+  // iEvent.getByLabel( "externalLHEProducer", run );
+  iEvent.getByToken( extLHEInfo_Token, run );
+  //  iRun.getByToken( extLHEInfo_Token, run );                                                                                                                                   
+
+  LHERunInfoProduct myLHERunInfoProduct = *(run.product());
+  for (headers_const_iterator iter=myLHERunInfoProduct.headers_begin(); iter!=myLHERunInfoProduct.headers_end(); iter++){
+    std::cout << iter->tag() << std::endl;
+    std::vector<std::string> lines = iter->lines();
+    for (unsigned int iLine = 0; iLine<lines.size(); iLine++) {
+      std::cout << lines.at(iLine);
+    }
+  }
+
+
+
+}
+
+
+
+void                                                                                                                                                                              
+GEN_Validation_reweight::endRun(edm::Run const& iEvent, edm::EventSetup const&)                                                                                                                                                 
+{                                                                                                                                                                                 
+}                                                                                                                                                                                 
+
+
+
 // ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
+
+
 void
 GEN_Validation_reweight::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
   //The following says we do not know what parameters are allowed so do no validation
