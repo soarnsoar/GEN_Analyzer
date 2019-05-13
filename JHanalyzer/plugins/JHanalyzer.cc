@@ -86,8 +86,10 @@ class JHanalyzer : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
   edm::EDGetTokenT<LHEEventProduct> LHEInfo_Token;
 
 
-  //  double promptphoton;
 
+
+  TTree *tree1;
+  double Z_pt;
       // ----------member data ---------------------------
 };
 //
@@ -179,6 +181,7 @@ JHanalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 
 
 
+   tree1->Fill();
 
 
 #ifdef THIS_IS_AN_EVENT_EXAMPLE
@@ -218,6 +221,12 @@ JHanalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 void 
 JHanalyzer::beginJob()
 {
+  cout<<"begin job"<<endl;
+
+  edm::Service<TFileService> fs;
+  tree1=fs->make<TTree>("tree1","tree1");
+  tree1->Branch("Z_pt",&Z_pt,"Z_pt/D");
+  cout<<"end of beginjob"<<endl;
 
 
 }
