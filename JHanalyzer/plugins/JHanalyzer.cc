@@ -34,6 +34,7 @@
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
 #include "FWCore/ServiceRegistry/interface/Service.h"
+#include "SimDataFormats/GeneratorProducts/interface/HepMCProduct.h"
 
 
 
@@ -42,7 +43,12 @@ using namespace reco;
 using namespace std;
 
 #include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
+#include "SimDataFormats/GeneratorProducts/interface/GenRunInfoProduct.h"
+#include "SimDataFormats/GeneratorProducts/interface/LHERunInfoProduct.h"
+#include "SimDataFormats/GeneratorProducts/interface/LHEEventProduct.h"
 
+#include "FWCore/Framework/interface/Frameworkfwd.h"
+#include "FWCore/Framework/interface/Run.h"//to use edm::Run                                                                                 
 
 
 #include <TTree.h>
@@ -77,6 +83,7 @@ class JHanalyzer : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 
   edm::EDGetTokenT<GenParticleCollection> genParticles_Token;
   edm::EDGetTokenT<GenEventInfoProduct> genInfo_Token;
+  edm::EDGetTokenT<LHEEventProduct> LHEInfo_Token;
 
 
   //  double promptphoton;
@@ -104,6 +111,7 @@ JHanalyzer::JHanalyzer(const edm::ParameterSet& iConfig)
   usesResource("TFileService");
    genParticles_Token = consumes<GenParticleCollection>(edm::InputTag("genParticles"));
    genInfo_Token = consumes<GenEventInfoProduct>(edm::InputTag("generator"));
+   LHEInfo_Token = consumes<LHEEventProduct>(edm::InputTag("externalLHEProducer"));
 
 }
 
@@ -133,6 +141,46 @@ JHanalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    iEvent.getByToken(genParticles_Token, genParticles);//genParticle                                                                                         
    edm::Handle<GenEventInfoProduct> genInfo;
    iEvent.getByToken(genInfo_Token, genInfo);
+
+   edm::Handle<LHEEventProduct> LHEInfo;
+   iEvent.getByToken(LHEInfo_Token, LHEInfo);
+
+
+   //---LHE info and reweight---//
+   int lheinfoweightsize= LHEInfo->weights().size();
+   int lheinfocommentssize = LHEInfo->comments_size();
+   double w0=LHEInfo->originalXWGTUP();
+   for (int i_lhe =0; i_lhe < lheinfoweightsize; i_lhe++){
+     //weight id in lhe file//
+     //cout<<"weight_id="<<LHEInfo->weights()[i_lhe].id<<endl;
+
+     //event weight//
+     //cout<<LHEInfo->weights()[i_lhe].wgt/w0<<endl;                                                                                      
+     
+     
+   }
+
+   for (int i =0; i < lheinfocommentssize; i++){                                                                                          
+     //cout<<"comment i ="<<i<<"=" << LHEInfo->getComment(i)<<endl;                                                                       
+   }                                                                                                                                        
+   
+
+   const lhef::HEPEUP& lheEvent = LHEInfo->hepeup();
+   std::vector<lhef::HEPEUP::FiveVector> lheParticles = lheEvent.PUP;
+   Int_t nLHEParticle = lheParticles.size();
+   for( Int_t idxParticle = 0; idxParticle < nLHEParticle; ++idxParticle ){
+
+     Int_t id = lheEvent.IDUP[idxParticle];
+     
+     cout<<id<<endl;
+     
+   }
+
+
+
+
+
+
    //GenEventInfoProduct                   "generator"                 ""                "SIM"   //
 
    //weight=genInfo->weight();
