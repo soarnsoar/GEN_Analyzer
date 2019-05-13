@@ -137,11 +137,6 @@ JHanalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 
 
    using namespace edm;
-   Handle<reco::GenParticleCollection> genParticles;
-   iEvent.getByToken(genParticles_Token, genParticles);//genParticle                                                                                         
-   edm::Handle<GenEventInfoProduct> genInfo;
-   iEvent.getByToken(genInfo_Token, genInfo);
-
    edm::Handle<LHEEventProduct> LHEInfo;
    iEvent.getByToken(LHEInfo_Token, LHEInfo);
 
@@ -171,58 +166,19 @@ JHanalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    for( Int_t idxParticle = 0; idxParticle < nLHEParticle; ++idxParticle ){
 
      Int_t id = lheEvent.IDUP[idxParticle];
-     
-     cout<<id<<endl;
+     Int_t status = lheEvent.ISTUP[idxParticle];
+     double px = lheParticles[idxParticle][0];
+     double py = lheParticles[idxParticle][1];
+     double pz = lheParticles[idxParticle][2];
+     double ee = lheParticles[idxParticle][3];
+     double mm = lheParticles[idxParticle][4];
+     cout<<"idxParticle="<<idxParticle<<" id="<<id<<" status="<<status<<" px="<<px<<" py="<<py<<" pz="<<pz<<" ee="<<ee<<" mm="<<mm<<endl;
      
    }
 
 
 
 
-
-
-   //GenEventInfoProduct                   "generator"                 ""                "SIM"   //
-
-   //weight=genInfo->weight();
-
-
-   //   for(int i = 0; i < gensize; ++ i) {///scan all gen particles
-  // const GenParticle & p = (*genParticles)[i];
-     
-   //}///end of gen loop
-   int gensize= genParticles->size();
-   
-   vector<int> gen_motherindex;
-   for(int i = 0; i < gensize; ++ i) {
-     const GenParticle & p = (*genParticles)[i];
-
-     int mother = -1;
-     
-     for( reco::GenParticleCollection::const_iterator mit = genParticles->begin(); mit != genParticles->end(); ++mit ) {
-       if( p.mother()==&(*mit) ) {
-         mother = std::distance(genParticles->begin(),mit);
-         break;
-       }
-
-
-     }
-     gen_motherindex.push_back(mother);
-     
-   }//end of find motherindex
-   //cout<<"#########################"<<endl;
-   cout<<"@@Nparticle="<<gensize<<endl;
-   for(int i = 0; i < gensize; ++ i) {
-     const GenParticle & p = (*genParticles)[i];
-     int id = p.pdgId();
-     int fromhard=p.statusFlags().fromHardProcess();
-     int status = p.status();
-     double px = p.px();
-     double py = p.py();
-     double pz = p.pz();
-     double ee = p.energy();
-     int prompt = p.statusFlags().isPrompt();//                                                                                                                                      
-     cout<<"i="<<i<<" status="<<status<<" id="<<id<<" mother="<<gen_motherindex[i]<<endl;
-   }
 
 
 #ifdef THIS_IS_AN_EVENT_EXAMPLE
