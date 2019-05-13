@@ -200,7 +200,7 @@ JHanalyzer_tautau_inLHE::analyze(const edm::Event& iEvent, const edm::EventSetup
      
      
    }
-   cout<<"lheinfocommentssize="<<lheinfocommentssize<<endl;
+   //cout<<"lheinfocommentssize="<<lheinfocommentssize<<endl;
    for (int i =0; i < lheinfocommentssize; i++){                                                                                          
      // cout<<"comment i ="<<i<<"=" << LHEInfo->getComment(i)<<endl;                                                                       
    }                                                                                                                                        
