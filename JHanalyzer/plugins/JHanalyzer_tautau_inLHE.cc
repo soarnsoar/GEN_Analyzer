@@ -50,10 +50,16 @@ using namespace std;
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/Run.h"//to use edm::Run                                                                                 
 
-
+#include <TH1D.h>
 #include <TTree.h>
 #include <TFile.h>
 #include <TLorentzVector.h>
+
+
+
+//Range of weight//
+
+
 
 
 //
@@ -87,10 +93,20 @@ class JHanalyzer_tautau_inLHE : public edm::one::EDAnalyzer<edm::one::SharedReso
 
 
 
+  //TH1D (const char *name, const char *title, Int_t nbinsx, Double_t xlow, Double_t xup)
 
-  TTree *TEvents;
+  //tautau//
+  vector<TH1D*> h_m_tautau;
+  vector<TH1D*> h_ee_tautau;
+  vector<TH1D*> h_pt_tautau;
+  vector<TH1D*> h_eta_tautau;
+  vector<TH1D*> h_phi_tautau;
+  vector<TH1D*> h_px_tautau;
+  vector<TH1D*> h_py_tautau;
+  vector<TH1D*> h_pz_tautau;
+
   
-  ///variables//
+
   double m_tautau;
   double ee_tautau;
   double pt_tautau;
@@ -101,6 +117,19 @@ class JHanalyzer_tautau_inLHE : public edm::one::EDAnalyzer<edm::one::SharedReso
   double pz_tautau;
 
 
+
+
+
+  //tau//
+  vector<TH1D*> h_pt_tau;
+  vector<TH1D*> h_eta_tau;
+  vector<TH1D*> h_phi_tau;
+  vector<TH1D*> h_m_tau;
+  vector<TH1D*> h_px_tau;
+  vector<TH1D*> h_py_tau;
+  vector<TH1D*> h_pz_tau;
+  vector<TH1D*> h_ee_tau;
+
   vector<double> pt_tau;
   vector<double> eta_tau;
   vector<double> phi_tau;
@@ -110,6 +139,12 @@ class JHanalyzer_tautau_inLHE : public edm::one::EDAnalyzer<edm::one::SharedReso
   vector<double> pz_tau;
   vector<double> ee_tau;
 
+  //extra//
+
+  vector<TH1D*> h_ntau;
+  vector<TH1D*> h_njet;
+  vector<TH1D*> h_Q;
+  
   double ntau;
   double njet;
   //scale for pdf//
@@ -118,8 +153,11 @@ class JHanalyzer_tautau_inLHE : public edm::one::EDAnalyzer<edm::one::SharedReso
 
 
 
-  vector<double> weight_i; 
-  
+
+
+  vector<int> id_weight;
+  int istart;
+  int iend;
       // ----------member data ---------------------------
 };
 //
@@ -133,8 +171,9 @@ class JHanalyzer_tautau_inLHE : public edm::one::EDAnalyzer<edm::one::SharedReso
 //
 // constructors and destructor
 //
-JHanalyzer_tautau_inLHE::JHanalyzer_tautau_inLHE(const edm::ParameterSet& iConfig)
-
+JHanalyzer_tautau_inLHE::JHanalyzer_tautau_inLHE(const edm::ParameterSet& iConfig) :
+  istart(iConfig.getParameter<uint32_t>("istart")),
+  iend(iConfig.getParameter<uint32_t>("iend"))
 {
    //now do what ever initialization is needed
  
@@ -166,7 +205,7 @@ void
 JHanalyzer_tautau_inLHE::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
   ////////////initialize/////////////
-
+  vector<double> weight_i; 
   px_tautau=0;
   py_tautau=0;
   pz_tautau=0;
@@ -191,21 +230,32 @@ JHanalyzer_tautau_inLHE::analyze(const edm::Event& iEvent, const edm::EventSetup
    int lheinfocommentssize = LHEInfo->comments_size();
    double w0=LHEInfo->originalXWGTUP();
    //cout <<"lheinfoweightsize="<<lheinfoweightsize<<endl;
-   for (int i_lhe =0; i_lhe < lheinfoweightsize; i_lhe++){
-     //weight id in lhe file//
-     //cout<<"weight_id="<<LHEInfo->weights()[i_lhe].id<<endl;
-     weight_i.push_back(LHEInfo->weights()[i_lhe].wgt/w0);
-     //event weight//
-     //cout<<LHEInfo->weights()[i_lhe].wgt/w0<<endl;                                                                                      
+   //cout<<"id_weight.size="<<id_weight.size()<<endl;
+   //cout<<"lheinfoweightsize="<<lheinfoweightsize<<endl;
+   for (unsigned int i_w = 0 ; i_w< id_weight.size(); i_w++){
+     for (int i_lhe =0; i_lhe < lheinfoweightsize; i_lhe++){
+       //weight id in lhe file//
+       //cout <<"id_weight[i_w]"<<id_weight[i_w]<<endl;
+       //cout<<"LHEInfo->weights()[i_lhe].id="<<LHEInfo->weights()[i_lhe].id<<endl;
+       
+       if(TString::Itoa(id_weight[i_w],10)==LHEInfo->weights()[i_lhe].id  ){//if index is matched
+	 weight_i.push_back(LHEInfo->weights()[i_lhe].wgt/w0);
+	 //cout<<"!!!MATCH!!!"<<endl;
+       }
+       //cout<<"i_lhe="<<i_lhe<<"weight_id="<<LHEInfo->weights()[i_lhe].id<<endl;
+       //weight_i.push_back(LHEInfo->weights()[i_lhe].wgt/w0);
+       //event weight//
+       //cout<<LHEInfo->weights()[i_lhe].wgt/w0<<endl;                                                                                      
      
-     
+       
+     }
    }
    //cout<<"lheinfocommentssize="<<lheinfocommentssize<<endl;
    for (int i =0; i < lheinfocommentssize; i++){                                                                                          
      // cout<<"comment i ="<<i<<"=" << LHEInfo->getComment(i)<<endl;                                                                       
    }                                                                                                                                        
    
-
+   
 
    /*
   ///variables//                                                                                                                             
@@ -305,9 +355,62 @@ JHanalyzer_tautau_inLHE::analyze(const edm::Event& iEvent, const edm::EventSetup
    pz_tautau=vv.Pz();
    ee_tautau=vv.E();
    Q=lheEvent.SCALUP;
+
+
+  
+   
+   
+
+   //FillHisto//
+   //for all weights
+   cout<<"weight_i.size="<<weight_i.size()<<endl;
+   
+   for(unsigned int i_w=0 ;i_w < weight_i.size(); i_w++){
+     double this_w=weight_i[i_w];
+     
+     //tau variables//
+     for(unsigned int i_tau=0; i_tau < ntau;i_tau++){
+       //cout<<this_w<<endl;
+       //cout<<"px_tau[i_tau]="<<px_tau[i_tau]<<endl;
+       //cout<<"py_tau[i_tau]="<<py_tau[i_tau]<<endl;
+       //cout<<"pz_tau[i_tau]="<<pz_tau[i_tau]<<endl;
+       //cout<<"ee_tau[i_tau]="<<ee_tau[i_tau]<<endl;
+       
+       h_pt_tau.at(i_w)->Fill(pt_tau[i_tau],this_w);
+       h_eta_tau.at(i_w)->Fill(eta_tau[i_tau],this_w);
+       h_phi_tau.at(i_w)->Fill(phi_tau[i_tau],this_w);
+       h_m_tau.at(i_w)->Fill(m_tau[i_tau],this_w);
+       h_px_tau.at(i_w)->Fill(px_tau[i_tau],this_w);
+       h_py_tau.at(i_w)->Fill(py_tau[i_tau],this_w);
+       h_pz_tau.at(i_w)->Fill(pz_tau[i_tau],this_w);
+       h_ee_tau.at(i_w)->Fill(ee_tau[i_tau],this_w);
+
+
+
+     }
+
+     //event variables//
+     h_pt_tautau.at(i_w)->Fill(pt_tautau,this_w);
+     h_eta_tautau.at(i_w)->Fill(eta_tautau,this_w);
+     h_phi_tautau.at(i_w)->Fill(phi_tautau,this_w);
+     h_m_tautau.at(i_w)->Fill(m_tautau,this_w);
+     h_px_tautau.at(i_w)->Fill(px_tautau,this_w);
+     h_py_tautau.at(i_w)->Fill(py_tautau,this_w);
+     h_pz_tautau.at(i_w)->Fill(pz_tautau,this_w);
+     h_ee_tautau.at(i_w)->Fill(ee_tautau,this_w);
+
+     h_ntau.at(i_w)->Fill(ntau,this_w);
+     h_njet.at(i_w)->Fill(njet,this_w);
+     h_Q.at(i_w)->Fill(Q,this_w);
+   }
+   
+
    //x1=lheEvent.XPDWUP.first;
    // x2=lheEvent.XPDWUP.second;
-   TEvents->Fill();
+   //TEvents->Fill();
+
+
+   
 
 
 #ifdef THIS_IS_AN_EVENT_EXAMPLE
@@ -348,36 +451,87 @@ void
 JHanalyzer_tautau_inLHE::beginJob()
 {
   cout<<"begin job"<<endl;
+  
+  ////Set weight id to save////
+  //int istart =2001; int iend=2090; // for mg232 dytautau sample. lhapdf=292200
+  cout << "##istart=" << istart << endl;
+  cout << "##iend=" << iend<< endl;
+  
+  for (int i = istart; i < iend+1; i++){ 
+    id_weight.push_back(i);
+  }
+  
 
   edm::Service<TFileService> fs;
-  TEvents=fs->make<TTree>("TEvents","TEvents");
+  int N_weight=id_weight.size();
+  for( int i = 0 ; i < N_weight; i++){
+    TString str_id_weight=TString::Itoa(id_weight[i],10);
+    TH1D *h;
+
+    
+    h_m_tautau.push_back(h);
+    h_px_tautau.push_back(h);
+    h_py_tautau.push_back(h);
+    h_pz_tautau.push_back(h);
+    h_ee_tautau.push_back(h);
+    h_pt_tautau.push_back(h);
+    h_eta_tautau.push_back(h);
+    h_phi_tautau.push_back(h);
+
+    h_m_tau.push_back(h);
+    h_px_tau.push_back(h);
+    h_py_tau.push_back(h);
+    h_pz_tau.push_back(h);
+    h_ee_tau.push_back(h);
+    h_pt_tau.push_back(h);
+    h_eta_tau.push_back(h);
+    h_phi_tau.push_back(h);
+    h_ntau.push_back(h);
+    h_njet.push_back(h);
+    h_Q.push_back(h);
+
+
+    
+
+
+
+
+
+
+
+    
+    h_m_tautau.at(i)=fs->make<TH1D>("h_m_tautau_"+str_id_weight,"h_m_tautau_"+str_id_weight,1000,0.,1000.);
+    h_px_tautau.at(i)=fs->make<TH1D>("h_px_tautau_"+str_id_weight,"h_px_tautau_"+str_id_weight,1000,-500.,500.);
+    h_py_tautau.at(i)=fs->make<TH1D>("h_py_tautau_"+str_id_weight,"h_py_tautau_"+str_id_weight,1000,-500.,500.);
+    h_pz_tautau.at(i)=fs->make<TH1D>("h_pz_tautau_"+str_id_weight,"h_pz_tautau_"+str_id_weight,1000,-500.,500.);
+    h_ee_tautau.at(i)=fs->make<TH1D>("h_ee_tautau_"+str_id_weight,"h_ee_tautau_"+str_id_weight,1000,0.,1000.);
+    h_pt_tautau.at(i)=fs->make<TH1D>("h_pt_tautau_"+str_id_weight,"h_pt_tautau_"+str_id_weight,500,0.,500.);
+    h_eta_tautau.at(i)=fs->make<TH1D>("h_eta_tautau_"+str_id_weight,"h_eta_tautau_"+str_id_weight,100,-5.,5.);
+    h_phi_tautau.at(i)=fs->make<TH1D>("h_phi_tautau_"+str_id_weight,"h_phi_tautau_"+str_id_weight,100,-4,4);
+
+    h_m_tau.at(i)=fs->make<TH1D>("h_m_tau_"+str_id_weight,"h_m_tau_"+str_id_weight,1000, 0., 1000.);
+    h_px_tau.at(i)=fs->make<TH1D>("h_px_tau_"+str_id_weight,"h_px_tau_"+str_id_weight,1000,-500.,500.);
+    h_py_tau.at(i)=fs->make<TH1D>("h_py_tau_"+str_id_weight,"h_py_tau_"+str_id_weight,1000,-500.,500.);
+    h_pz_tau.at(i)=fs->make<TH1D>("h_pz_tau_"+str_id_weight,"h_pz_tau_"+str_id_weight,1000,-500.,500.);
+    h_ee_tau.at(i)=fs->make<TH1D>("h_ee_tau_"+str_id_weight,"h_ee_tau_"+str_id_weight,1000,0.,1000.);
+    h_pt_tau.at(i)=fs->make<TH1D>("h_pt_tau_"+str_id_weight,"h_pt_tau_"+str_id_weight,1000,-500.,500.);
+    h_eta_tau.at(i)=fs->make<TH1D>("h_eta_tau_"+str_id_weight,"h_eta_tau_"+str_id_weight,100,-5,5);
+    h_phi_tau.at(i)=fs->make<TH1D>("h_phi_tau_"+str_id_weight,"h_phi_tau_"+str_id_weight,100,-4,4);
+
+    h_ntau.at(i)=fs->make<TH1D>("h_ntau_"+str_id_weight,"h_ntau_"+str_id_weight,5,0,5);
+    h_njet.at(i)=fs->make<TH1D>("h_njet_"+str_id_weight,"h_njet_"+str_id_weight,5,0,5);
+    h_Q.at(i)=fs->make<TH1D>("h_Q_"+str_id_weight,"h_Q_"+str_id_weight,1000,0,1000);
+
+
+    //delete h
+  }
+  
+  
+
+
+
   //TEvents->Branch("Z_pt",&Z_pt,"Z_pt/D");
-  TEvents->Branch("px_tau","std::vector<double>",&px_tau);
-  TEvents->Branch("py_tau","std::vector<double>",&py_tau);
-  TEvents->Branch("pz_tau","std::vector<double>",&pz_tau);
-  TEvents->Branch("ee_tau","std::vector<double>",&ee_tau);
-  TEvents->Branch("pt_tau","std::vector<double>",&pt_tau);
-  TEvents->Branch("eta_tau","std::vector<double>",&eta_tau);
-  TEvents->Branch("phi_tau","std::vector<double>",&phi_tau);
-  TEvents->Branch("m_tau","std::vector<double>",&m_tau);
-  TEvents->Branch("weight_i","std::vector<double>",&weight_i);
-
-
-  TEvents->Branch("px_tautau",&px_tautau,"px_tautau/D");
-  TEvents->Branch("py_tautau",&py_tautau,"py_tautau/D");
-  TEvents->Branch("pz_tautau",&pz_tautau,"pz_tautau/D");
-  TEvents->Branch("ee_tautau",&ee_tautau,"ee_tautau/D");
-  TEvents->Branch("pt_tautau",&pt_tautau,"pt_tautau/D");
-  TEvents->Branch("eta_tautau",&eta_tautau,"eta_tautau/D");
-  TEvents->Branch("phi_tautau",&phi_tautau,"phi_tautau/D");
-  TEvents->Branch("m_tautau",&m_tautau,"m_tautau/D");
-
-  TEvents->Branch("ntau",&ntau,"ntau/D");
-  TEvents->Branch("njet",&njet,"njet/D");
   
-  TEvents->Branch("Q",&Q,"Q/D");
-  
-
   cout<<"end of beginjob"<<endl;
 
 
