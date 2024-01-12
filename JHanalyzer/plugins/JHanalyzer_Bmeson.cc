@@ -1,9 +1,9 @@
 // -*- C++ -*-
 //
-// Package:    Analyzer/JHanalyzer
-// Class:      JHanalyzer
+// Package:    Analyzer/JHanalyzer_Bmeson
+// Class:      JHanalyzer_Bmeson
 // 
-/**\class JHanalyzer JHanalyzer.cc Analyzer/JHanalyzer/plugins/JHanalyzer.cc
+/**\class JHanalyzer_Bmeson JHanalyzer_Bmeson.cc Analyzer/JHanalyzer_Bmeson/plugins/JHanalyzer_Bmeson.cc
 
  Description: [one line class summary]
 
@@ -60,10 +60,10 @@ using namespace std;
 // constructor "usesResource("TFileService");"
 // This will improve performance in multithreaded jobs.
 
-class JHanalyzer : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
+class JHanalyzer_Bmeson : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
    public:
-      explicit JHanalyzer(const edm::ParameterSet&);
-      ~JHanalyzer();
+      explicit JHanalyzer_Bmeson(const edm::ParameterSet&);
+      ~JHanalyzer_Bmeson();
 
       static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
 
@@ -94,7 +94,7 @@ class JHanalyzer : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 //
 // constructors and destructor
 //
-JHanalyzer::JHanalyzer(const edm::ParameterSet& iConfig)
+JHanalyzer_Bmeson::JHanalyzer_Bmeson(const edm::ParameterSet& iConfig)
 
 {
    //now do what ever initialization is needed
@@ -108,7 +108,7 @@ JHanalyzer::JHanalyzer(const edm::ParameterSet& iConfig)
 }
 
 
-JHanalyzer::~JHanalyzer()
+JHanalyzer_Bmeson::~JHanalyzer_Bmeson()
 {
  
    // do anything here that needs to be done at desctruction time
@@ -123,7 +123,7 @@ JHanalyzer::~JHanalyzer()
 
 // ------------ method called for each event  ------------
 void
-JHanalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
+JHanalyzer_Bmeson::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
   ////////////initialize/////////////
 
@@ -165,7 +165,7 @@ JHanalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    }//end of find motherindex
    //cout<<"#########################"<<endl;
    cout<<"@@Nparticle="<<gensize<<endl;
-   cout << "i" << setw(15) << "status " << setw(15) << "pid" << setw(15) << "pt" << setw(15) << "eta" << setw(15) << "phi" << setw(15) << "E" << setw(15) << "M" << setw(15) << "mother" << endl;
+   cout << "i" << setw(15) << "status " << setw(15) << "pid" << setw(15) << "pt" << setw(15) << "eta" << setw(15) << "phi" << setw(15) << "E" << setw(15) << "M" << setw(15) << "motheridx" << setw(15) << "mother pid" << endl;
    for(unsigned int i = 0; i < gensize; ++ i) {
      //https://github.com/cms-sw/cmssw/blob/master/DataFormats/HepMCCandidate/interface/GenParticle.h
      const GenParticle & p = (*genParticles)[i];
@@ -183,9 +183,13 @@ JHanalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
      int prompt = p.statusFlags().isPrompt();//
      int motheridx = gen_motherindex[i];
      
-     cout << i << setw(15) << status  << setw(15) << pid << setw(15) << pt << setw(15) << eta << setw(15) << phi << setw(15) << ee << setw(15) << mass << setw(15) << motheridx << endl;
-     
-     
+     if(motheridx>-1){
+       //if(  abs( genParticles->at(motheridx).pdgId()  ) == 511 || abs(pid)==511){
+       if(  abs( genParticles->at(motheridx).pdgId()  ) == 511 && abs(pid)==511){
+	 cout << "!!!!!!" << endl;
+	 cout << i << setw(15) << status  << setw(15) << pid << setw(15) << pt << setw(15) << eta << setw(15) << phi << setw(15) << ee << setw(15) << mass << setw(15) << motheridx << setw(15) << genParticles->at(motheridx).pdgId() << endl;
+       }
+     }
    }
 
 
@@ -224,7 +228,7 @@ JHanalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 
 // ------------ method called once each job just before starting event loop  ------------
 void 
-JHanalyzer::beginJob()
+JHanalyzer_Bmeson::beginJob()
 {
 
 
@@ -232,13 +236,13 @@ JHanalyzer::beginJob()
 
 // ------------ method called once each job just after ending the event loop  ------------
 void 
-JHanalyzer::endJob() 
+JHanalyzer_Bmeson::endJob() 
 {
 }
 
 // ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
 void
-JHanalyzer::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
+JHanalyzer_Bmeson::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
   //The following says we do not know what parameters are allowed so do no validation
   // Please change this to state exactly what you do use, even if it is no parameters
   edm::ParameterSetDescription desc;
@@ -247,4 +251,4 @@ JHanalyzer::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
 }
 
 //define this as a plug-in
-DEFINE_FWK_MODULE(JHanalyzer);
+DEFINE_FWK_MODULE(JHanalyzer_Bmeson);
