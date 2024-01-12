@@ -1,13 +1,15 @@
 * How to setup(Do not "git clone" this code first. Follow below lines.
+
+
 ##----start----##
+
+
 export SCRAM_ARCH=slc7_amd64_gcc700
 
 source /cvmfs/cms.cern.ch/cmsset_default.sh
-if [ -r CMSSW_10_6_25/src ] ; then
-  echo release CMSSW_10_6_25 already exists
-else
-  scram p CMSSW CMSSW_10_6_25
-fi
+
+scram p CMSSW CMSSW_10_6_25
+
 cd CMSSW_10_6_25/src
 
 git clone git@github.com:soarnsoar/GEN_Analyzer.git
