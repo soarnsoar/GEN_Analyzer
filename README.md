@@ -12,7 +12,7 @@ scram p CMSSW CMSSW_10_6_25
 
 cd CMSSW_10_6_25/src
 
-eval `scram runtime -sh`
+eval \`scram runtime -sh\`
 
 git clone git@github.com:soarnsoar/GEN_Analyzer.git
 
