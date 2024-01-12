@@ -16,7 +16,7 @@ eval \`scram runtime -sh\`
 
 git clone git@github.com:soarnsoar/GEN_Analyzer.git
 
-eval `scram runtime -sh` ## compile "JHanalyzer" plugin
+eval \`scram runtime -sh\` ## compile "JHanalyzer" plugin
 
 cd $CMSSW_BASE/src/GEN_Analyzer/JHanalyzer/python
 
