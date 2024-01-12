@@ -142,7 +142,7 @@ JHanalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
   // const GenParticle & p = (*genParticles)[i];
      
    //}///end of gen loop
-   int gensize= genParticles->size();
+   unsigned int gensize= genParticles->size();
    
    vector<int> gen_motherindex;
    for(int i = 0; i < gensize; ++ i) {
@@ -152,7 +152,7 @@ JHanalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
      
      for( reco::GenParticleCollection::const_iterator mit = genParticles->begin(); mit != genParticles->end(); ++mit ) {
        if( p.mother()==&(*mit) ) {
-         mother = std::distance(genParticles->begin(),mit);
+         mother = std::distance(genParticles->begin(),mit);//first mother...
          break;
        }
 
@@ -163,7 +163,7 @@ JHanalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    }//end of find motherindex
    //cout<<"#########################"<<endl;
    cout<<"@@Nparticle="<<gensize<<endl;
-   for(int i = 0; i < gensize; ++ i) {
+   for(unsigned int i = 0; i < gensize; ++ i) {
      const GenParticle & p = (*genParticles)[i];
      int id = p.pdgId();
      int fromhard=p.statusFlags().fromHardProcess();

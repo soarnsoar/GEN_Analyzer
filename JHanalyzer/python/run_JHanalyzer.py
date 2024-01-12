@@ -6,17 +6,6 @@ process.load("FWCore.MessageService.MessageLogger_cfi")
 
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 
-#process.source = cms.Source("PoolSource",
-    # replace 'myfile.root' with the source file you want to use
- #   fileNames = cms.untracked.vstring(
- #       'file:myfile.root'
-#        '/cms/ldap_home/jhchoi/miniAOD_copy/output/50plus/042C33E6-93CC-E511-B7D6-0CC47A4D7662.root' 
-#      )
-
-#process.TFileService = cms.Service("TFileService",
-                                   #fileName = cms.string("/home/jhchoi/mcm_filter_test/HIG-RunIIFall18wmLHEGS-01691.root"),
-#                                   closeFileFast = cms.untracked.bool(True)
-#                                   )
         
 process.source = cms.Source("PoolSource",
                                     # replace 'myfile.root' with the source file you want to use                                                                      
@@ -38,7 +27,10 @@ process.source = cms.Source("PoolSource",
 #'root://cluster142.knu.ac.kr//store/mc/RunIISummer15GS/DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/GEN-SIM/MCRUN2_71_V1-v1/10000/000F8BDD-A77B-E511-B3D4-002590D9D8BE.root' ####10to50 knu gensim
 #'/store/mc/RunIISummer15GS/DYJetsToLL_M-200to400_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/GEN-SIM/MCRUN2_71_V1_ext2-v1/80000/00C96872-EBD3-E511-9418-24BE05C46B11.root'
 
-"file:/home/jhchoi/mcm_filter_test/HIG-RunIIFall18wmLHEGS-01691_inLHE.root"
+#"file:/home/jhchoi/mcm_filter_test/HIG-RunIIFall18wmLHEGS-01691_inLHE.root"
+#'root://cms-xrd-global.cern.ch/'
+"file:///data6/Users/jhchoi/GEN/input_GEN/mc/RunIISummer20UL18GEN/QCD_Pt-15to7000_TuneCP5_Flat2018_13TeV_pythia8/GEN/106X_upgrade2018_realistic_v4-v2/1D1D6DF6-0B62-7F47-81BC-7FAE415CEB69.root"
+#'root://cms-xrd-global.cern.ch//QCD_Pt-30To50_MuEnrichedPt5_TuneCP5_13TeV-pythia8/RunIISummer20UL16GENAPV-106X_mcRun2_asymptotic_preVFP_v8-v1/GEN'
       )
 )
        
